@@ -1,7 +1,9 @@
 #!/bin/sh -l
 
-sudo pacman -S --noconfirm base-devel,git
-cd /github
+pacman -S --noconfirm base-devel git
+
+cd $GITHUB_WORKSPACE
+
 makepkg -sor
 
 ret=$?
