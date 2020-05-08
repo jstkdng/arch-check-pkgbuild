@@ -1,4 +1,4 @@
-FROM martynas/archlinux:latest
+FROM justkdng/archlinux:latest
 
 COPY entrypoint.sh /entrypoint.sh
 
