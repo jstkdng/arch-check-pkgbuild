@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-pacman -S --noconfirm base-devel git
+pacman -Sy --noconfirm base-devel git
 
 cd $GITHUB_WORKSPACE
 
