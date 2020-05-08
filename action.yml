@@ -1,0 +1,6 @@
+# action.yml
+name: 'Archlinux check PKGBUILD'
+description: 'Check if a PKGBUILD can be built'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
