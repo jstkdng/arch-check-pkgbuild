@@ -15,10 +15,13 @@ sudo chown -R build /github/workspace /github/home
 
 cd $GITHUB_WORKSPACE
 install_deps
-makepkg --nobuild --nodeps
+makepkg --nobuild --nodeps --clean
 
 ret=$?
 if [ $ret -ne 0 ]; then
     echo "Failed prepairing PKGBUILD"
     exit 1
 fi
+
+# restore old permissions
+sudo chown -R root /github/workspace /github/home
