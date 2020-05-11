@@ -1,5 +1,8 @@
 #!/bin/sh -l
 
+# refresh pacman database beforehand
+sudo pacman -Syu --noconfirm
+
 sudo chown -R build /github/workspace /github/home
 
 cd $GITHUB_WORKSPACE
