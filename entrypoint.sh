@@ -8,16 +8,14 @@ install_deps() {
         xargs yay -S --noconfirm
 }
 
+# refresh pacman database beforehand
 sudo pacman -Syu --noconfirm
 
-mount
-lsblk
-ls /
+sudo chown -R build $GITHUB_WORKSPACE $HOME
 
-cp /github/workspace/* /home/build/
-cd /home/build/
+cd $GITHUB_WORKSPACE
 install_deps
-makepkg --nobuild --nodeps --clean
+makepkg --nobuild --nodeps
 
 ret=$?
 if [ $ret -ne 0 ]; then
