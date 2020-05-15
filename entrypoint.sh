@@ -10,6 +10,10 @@ install_deps() {
 
 sudo pacman -Syu --noconfirm
 
+mount
+lsblk
+ls /
+
 cp /github/workspace/* /home/build/
 cd /home/build/
 install_deps
