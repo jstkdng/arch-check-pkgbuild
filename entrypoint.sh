@@ -8,12 +8,10 @@ install_deps() {
         xargs yay -S --noconfirm
 }
 
-# refresh pacman database beforehand
 sudo pacman -Syu --noconfirm
 
-sudo chown -R build /github/workspace /github/home
-
-cd $GITHUB_WORKSPACE
+cp /github/workspace/* /home/build/
+cd /home/build/
 install_deps
 makepkg --nobuild --nodeps --clean
 
@@ -22,6 +20,3 @@ if [ $ret -ne 0 ]; then
     echo "Failed prepairing PKGBUILD"
     exit 1
 fi
-
-# restore old permissions
-sudo chown -R root /github/workspace /github/home
