@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 install_deps() {
-    # install make package dependencies
+    # install make dependencies
     grep -E 'makedepends' PKGBUILD | \
         sed -e 's/.*depends=//' -e 's/ /\n/g' | \
         tr -d "'" | tr -d "(" | tr -d ")" | \
