@@ -11,11 +11,13 @@ install_deps() {
 # refresh pacman database beforehand
 sudo pacman -Syu --noconfirm
 
+yay -S --noconfirm distcc
+
 sudo chown -R build $GITHUB_WORKSPACE $HOME
 
 cd $GITHUB_WORKSPACE
 install_deps
-makepkg --nobuild --nodeps
+makepkg
 
 ret=$?
 if [ $ret -ne 0 ]; then
