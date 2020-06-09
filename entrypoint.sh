@@ -8,6 +8,9 @@ install_deps() {
         xargs yay -S --noconfirm
 }
 
+# refresh pacman database beforehand
+sudo pacman -Syu --noconfirm
+
 yay -S --noconfirm php
 
 php -S 0.0.0.0:8189
