@@ -10,6 +10,5 @@ cd $GITHUB_WORKSPACE
 
 # install and start distcc
 yay -S --noconfirm distcc
-export DISTCC_DIR=/tmp/distcc
-sudo -E /usr/bin/runuser -u nobody -- /usr/bin/distcc --no-detach --daemon $DISTCC_ARGS
+sudo /usr/bin/runuser -u nobody -- /usr/bin/distccd --no-detach --daemon $DISTCC_ARGS
 
