@@ -11,6 +11,9 @@ install_deps() {
 # refresh pacman database beforehand
 sudo pacman -Syu --noconfirm
 
-yay -S --noconfirm php
+sudo chown -R build $GITHUB_WORKSPACE $HOME
 
+cd $GITHUB_WORKSPACE
+yay -S --noconfirm php
+echo "<p>Hello from arch</p>" > index.html
 php -S 0.0.0.0:8189
