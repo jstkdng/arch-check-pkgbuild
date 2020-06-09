@@ -8,17 +8,6 @@ install_deps() {
         xargs yay -S --noconfirm
 }
 
-# refresh pacman database beforehand
-sudo pacman -Syu --noconfirm
+yay -S --noconfirm php
 
-sudo chown -R build $GITHUB_WORKSPACE $HOME
-
-cd $GITHUB_WORKSPACE
-install_deps
-makepkg --nobuild --nodeps
-
-ret=$?
-if [ $ret -ne 0 ]; then
-    echo "Failed prepairing PKGBUILD"
-    exit 1
-fi
+php -S 0.0.0.0:8189
