@@ -18,10 +18,11 @@ sudo chown -R build $HOME
 cd $HOME/repo/.github/workflows
 go run wait_workers.go 2>> logfile
 
-exit 0
-
 # start building
 cd $HOME/repo
 install_deps
 makepkg --log
 
+# terminate workers
+cd $HOME/repo/.github/workflows
+go run end_workers.go 2>> logfile
