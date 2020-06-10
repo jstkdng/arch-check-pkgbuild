@@ -8,26 +8,20 @@ install_deps() {
         xargs yay -S --noconfirm
 }
 
-# refresh pacman database beforehand
-sudo pacman -Syu --noconfirm
+# update packages and install distcc
+sudo pacman -Syu --noconfirm distcc
 
+# fix permissions
 sudo chown -R build $HOME
 
+# wait for workers
+cd $HOME/repo/.github/workflows
+go run wait_workers.go 2>> logfile
+
+exit 0
+
+# start building
 cd $HOME/repo
-
-echo "Hello from arch" >> greet.txt
-ls -l >> greet.txt
-
-exit 1
-yay -S --noconfirm distcc
-
-
-cd $GITHUB_WORKSPACE
 install_deps
-makepkg
+makepkg --log
 
-ret=$?
-if [ $ret -ne 0 ]; then
-    echo "Failed prepairing PKGBUILD"
-    exit 1
-fi
