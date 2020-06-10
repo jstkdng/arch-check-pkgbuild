@@ -1,10 +1,10 @@
 #!/bin/sh -l
 
 # switch to canada mirror
-echo "Server = https://mirror.csclub.uwaterloo.ca/archlinux/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
+sudo echo "Server = https://mirror.csclub.uwaterloo.ca/archlinux/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
 
 # update packages and install distcc
-sudo pacman -Syu --noconfirm distcc
+sudo pacman -Syu --noconfirm distcc |& tee -a logfile
 
 # fix permissions
 sudo chown -R build $HOME
