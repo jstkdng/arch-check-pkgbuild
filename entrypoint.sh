@@ -11,9 +11,16 @@ install_deps() {
 # refresh pacman database beforehand
 sudo pacman -Syu --noconfirm
 
+sudo chown -R build $HOME
+
+cd $HOME/repo
+
+echo "Hello from arch" >> greet.txt
+ls -l >> greet.txt
+
+exit 1
 yay -S --noconfirm distcc
 
-sudo chown -R build $GITHUB_WORKSPACE $HOME
 
 cd $GITHUB_WORKSPACE
 install_deps
