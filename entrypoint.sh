@@ -4,9 +4,7 @@
 sudo pacman -Syu --noconfirm
 
 # fix permissions
-sudo chown -R build $GITHUB_WORKSPACE $HOME
-
-cd $GITHUB_WORKSPACE
+sudo chown -R build $HOME
 
 # install and start distcc
 yay -S --noconfirm distcc
