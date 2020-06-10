@@ -1,5 +1,8 @@
 #!/bin/sh -l
 
+# switch to canada mirror
+echo "Server = https://mirror.csclub.uwaterloo.ca/archlinux/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
+
 # install required dependencies
 sudo pacman -Syu --noconfirm clang distcc
 
