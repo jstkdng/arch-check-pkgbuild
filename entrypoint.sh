@@ -1,18 +1,22 @@
 #!/bin/sh -l
+
+# switch to canada mirror
+echo "Server = https://mirror.csclub.uwaterloo.ca/archlinux/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
+
 # update packages and install distcc
 sudo pacman -Syu --noconfirm distcc
 
 # fix permissions
 sudo chown -R build $HOME
 
+# switch to repo
+cd $HOME/repo
+
 # wait for workers
-cd $HOME/repo/.github/workflows
-go run wait_workers.go 2>> logfile
+go run .github/workflows/wait_workers.go 2>> logfile
 
 # start building
-cd $HOME/repo
 makepkg -s --noconfirm |& tee -a logfile
 
 # terminate workers
-cd $HOME/repo/.github/workflows
-go run end_workers.go 2>> logfile
+go run .github/workflows/end_workers.go 2>> logfile
