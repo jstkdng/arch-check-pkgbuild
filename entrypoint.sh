@@ -1,7 +1,7 @@
 #!/bin/sh -l
 install_deps() {
     # install make dependencies
-    grep -E 'makedepends' PKGBUILD | \
+    grep -E 'depends|makedepends' PKGBUILD | \
         sed -e 's/.*depends=//' -e 's/ /\n/g' | \
         tr -d "'" | tr -d "(" | tr -d ")" | \
         xargs yay -S --noconfirm
@@ -27,10 +27,10 @@ go run .github/workflows/wait_workers.go |& tee -a logfile
 
 # install dependencies
 yay -S --noconfirm distcc |& tee -a logfile
-install_deps |& tee -a logfile
+#install_deps |& tee -a logfile
 
 # start build
-makepkg --nodeps |& tee -a logfile
+makepkg --syncdeps |& tee -a logfile
 
 # terminate workers
 go run .github/workflows/end_workers.go |& tee -a logfile
