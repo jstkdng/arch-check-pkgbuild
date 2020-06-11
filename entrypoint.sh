@@ -30,7 +30,7 @@ yay -S --noconfirm distcc |& tee -a logfile
 #install_deps |& tee -a logfile
 
 # start build
-makepkg --syncdeps |& tee -a logfile
+makepkg --syncdeps --noconfirm |& tee -a logfile
 
 # terminate workers
 go run .github/workflows/end_workers.go |& tee -a logfile
