@@ -1,4 +1,5 @@
 #!/bin/sh -l
+shopt -s dotglob
 
 install_deps() {
     # install make dependencies
@@ -14,10 +15,13 @@ sudo echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | su
 # update packages and install distcc
 sudo pacman -Syu --noconfirm distcc
 
-# fix permissions
-#sudo chown -R build $HOME
+# wait for the PKGBUILD
+while ! test -f "$HOME/repo/PKGBUILD" do
+    sleep 1
+done
+sleep 5 # wait a bit more just in case
 
-# switch to repo
+# switch to home
 cd $HOME
 
 # copy all contents from repo
@@ -27,12 +31,11 @@ cp -r repo/* .
 go run .github/workflows/wait_workers.go
 
 # symlink logfile
-touch logfile
-sudo ln -s $HOME/logfile $HOME/repo/logfile
+sudo touch repo/logfile && sudo chown build:build repo/logfile
 
 # start building
-install_deps
-makepkg --nodeps |& tee -a logfile
+install_deps |& tee -a repo/logfile
+makepkg --nodeps |& tee -a repo/logfile
 
 # terminate workers
 go run .github/workflows/end_workers.go
