@@ -1,13 +1,13 @@
 #!/bin/sh -l
 
 # switch to canada mirror
-sudo echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
+echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
 
-# install required dependencies
-sudo pacman -Syu --noconfirm clang distcc
+# update dependencies
+sudo pacman -Syu --noconfirm
 
-# fix permissions
-sudo chown -R build $HOME
+# install dependencies
+yay -S --noconfirm clang distcc
 
 # start distcc
 sudo /usr/bin/runuser -u nobody -- /usr/bin/distccd --no-detach --daemon $DISTCC_ARGS
