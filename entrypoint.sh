@@ -8,9 +8,6 @@ install_deps() {
         xargs yay -S --noconfirm
 }
 
-# wait for workers
-go run .github/workflows/wait_workers.go
-
 # switch to canada mirror
 sudo echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
 
@@ -18,10 +15,20 @@ sudo echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | su
 sudo pacman -Syu --noconfirm distcc
 
 # fix permissions
-sudo chown -R build $HOME
+#sudo chown -R build $HOME
 
 # switch to repo
-cd $HOME/repo
+cd $HOME
+
+# copy all contents from repo
+cp -r repo/* .
+
+# wait for workers
+go run .github/workflows/wait_workers.go
+
+# symlink logfile
+touch logfile
+sudo ln -s $HOME/logfile $HOME/repo/logfile
 
 # start building
 install_deps
