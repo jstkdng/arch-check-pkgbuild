@@ -11,7 +11,7 @@ install_deps() {
 echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
 
 # update packages and install distcc
-sudo pacman -Syu --noconfirm distcc
+sudo pacman -Syu --noconfirm
 
 # change permissions
 sleep 30
@@ -25,8 +25,11 @@ echo "Starting build..." > logfile
 # wait for workers
 go run .github/workflows/wait_workers.go |& tee -a logfile
 
-# start building
+# install dependencies
+yay -S --noconfirm distcc |& tee -a logfile
 install_deps |& tee -a logfile
+
+# start build
 makepkg --nodeps |& tee -a logfile
 
 # terminate workers
