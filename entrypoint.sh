@@ -12,30 +12,27 @@ install_deps() {
 # switch to canada mirror
 sudo echo "Server = http://archlinux.mirror.colo-serv.net/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
 
+# switch to repo
+cd $HOME/repo
+
+# wait for the PKGBUILD
+while ! test -f "PKGBUILD" do
+    sleep 2
+done
+sleep 10 # wait a bit more just in case
+
+# change permissions
+sudo chown -R build:build $HOME
+
 # update packages and install distcc
 sudo pacman -Syu --noconfirm distcc
 
-# wait for the PKGBUILD
-while ! test -f "$HOME/repo/PKGBUILD" do
-    sleep 1
-done
-sleep 5 # wait a bit more just in case
-
-# switch to home
-cd $HOME
-
-# copy all contents from repo
-cp -r repo/* .
-
 # wait for workers
-go run .github/workflows/wait_workers.go
-
-# symlink logfile
-sudo touch repo/logfile && sudo chown build:build repo/logfile
+go run .github/workflows/wait_workers.go |& tee -a logfile
 
 # start building
-install_deps |& tee -a repo/logfile
-makepkg --nodeps |& tee -a repo/logfile
+install_deps |& tee -a logfile
+makepkg --nodeps |& tee -a logfile
 
 # terminate workers
-go run .github/workflows/end_workers.go
+go run .github/workflows/end_workers.go |& tee -a logfile
